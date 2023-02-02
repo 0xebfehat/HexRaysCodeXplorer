@@ -63,7 +63,7 @@ static bool inited = false;
 // Hotkey for the new command
 static char hotkey_dg[] = "Ctrl-Alt-T";
 static char hotkey_ce[] = "O";
-static char hotkey_rt[] = "R";
+static char hotkey_rt[] = "Shift-R";	// change to Shift-R because of conflicting conversion to string
 static char hotkey_gd[] = "J";
 static char hotkey_et[] = "S";
 static char hotkey_ec[] = "C";
@@ -580,7 +580,7 @@ static bool idaapi display_vtbl_objects(void *ud)
 
 	search_objects();
 	object_explorer_form_init();
-	re_types_form_init();
+	//re_types_form_init(); Not work? 2022.02.02
 	return true;
 }
 
