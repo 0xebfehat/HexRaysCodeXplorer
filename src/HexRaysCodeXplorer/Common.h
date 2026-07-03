@@ -27,6 +27,10 @@
 
 #pragma once
 
+#include <windows.h>
+#include <cstdarg>
+#include <cstdio>
+
 #if !defined (__LINUX__) && !defined (__MAC__)
     #ifdef __MAKEDLL__
     #  define DLLEXPORT __declspec(dllexport)
@@ -90,6 +94,7 @@
 #include <unordered_map>
 
 
+
 #ifdef __NT__
 #pragma warning(pop)
 #endif // __NT__
@@ -101,6 +106,10 @@
 #define EA_SIZE sizeof(ea_t)
 #else
 #define EA_SIZE EAH.ea_size
+#endif
+
+#if defined(IDA_SDK_VERSION) && IDA_SDK_VERSION >= 900
+using ulong = unsigned long;
 #endif
 
 template<typename T>

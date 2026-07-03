@@ -570,6 +570,7 @@ bool init_object_format_parser()
 //--------------------------------------------------------------------------
 // display Object Explorer
 
+
 static bool idaapi display_vtbl_objects(void *ud)
 {
 	if (!init_object_format_parser())
@@ -577,10 +578,38 @@ static bool idaapi display_vtbl_objects(void *ud)
 
 	search_objects();
 	object_explorer_form_init();
-	re_types_form_init();
+	// IDA 9.2 + PyQt6 cause crush if re_types_form_init() here
+	//re_types_form_init();
 	return true;
 }
 
+/*
+static bool idaapi display_vtbl_objects(void* ud)
+{
+	hrcx_dbg("display_vtbl_objects enter: ud=%p", ud);
+
+	hrcx_dbg("before init_object_format_parser");
+	if (!init_object_format_parser())
+	{
+		hrcx_dbg("init_object_format_parser failed");
+		return false;
+	}
+	hrcx_dbg("after init_object_format_parser");
+
+	hrcx_dbg("before search_objects");
+	search_objects();
+
+	hrcx_dbg("before object_explorer_form_init");
+	object_explorer_form_init();
+	hrcx_dbg("after object_explorer_form_init");
+
+	hrcx_dbg("before re_types_form_init");
+	//re_types_form_init();
+	hrcx_dbg("after re_types_form_init");
+
+	return true;
+}
+*/
 //--------------------------------------------------------------------------
 // display Microcode Explorer window
 
@@ -676,11 +705,13 @@ namespace {
 		{
 		}
 
+		
 		int idaapi activate(action_activation_ctx_t* ctx) override
 		{
 			const auto vdui = get_widget_vdui(ctx->widget);
 			return handler_(vdui) ? TRUE : FALSE;
 		}
+		
 
 		action_state_t idaapi update(action_update_ctx_t* ctx) override
 		{
